@@ -57,6 +57,9 @@ Motion::Project::App.setup do |app|
   #   pod "FontasticIcons"
   end
 
+  app.info_plist['UIViewControllerBasedStatusBarAppearance'] = false
+  app.status_bar_style = :light_content
+
   app.development do
     app.codesign_certificate = "iPhone Developer: YOURNAME"
     app.provisioning_profile = "signing/i_ching_ios.mobileprovision"

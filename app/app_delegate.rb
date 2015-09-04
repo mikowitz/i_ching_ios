@@ -2,6 +2,8 @@ class AppDelegate < PM::Delegate
   status_bar true, animation: :fade
 
   def on_load(app, options)
+    StandardAppearance.apply(self.window)
+
     open HexagramTableScreen.new(nav_bar: true)
   end
 

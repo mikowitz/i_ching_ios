@@ -10,7 +10,7 @@ class StandardAppearance
 
       UILabel.appearance.tap do |o|
         o.setTextColor rmq.color.black
-        o.font = rmq.font.medium
+        # o.font = rmq.font.medium
       end
 
       # UITabBar.appearance.tap do |o|
@@ -21,16 +21,17 @@ class StandardAppearance
       #   o.separatorColor = rmq.color.clear
       # end
 
-      # UINavigationBar.appearance.tap do |o|
-      #   o.barTintColor = rmq.color.black
-      #    o.setTintColor rmq.color.white
+      UINavigationBar.appearance.tap do |o|
+        o.barTintColor = rmq.color.black
+        o.setTintColor rmq.color.white
+        o.translucent = true
 
-      #    o.setTitleTextAttributes( {
-      #      UITextAttributeFont => rmq.font.medium,
-      #      UITextAttributeTextColor => rmq.color.white
-      #      #UITextAttributeTextShadowColor => color.clear
-      #    })
-      #  end
+        o.setTitleTextAttributes({
+          # UITextAttributeFont => rmq.font.medium,
+          UITextAttributeTextColor => rmq.color.white,
+          UITextAttributeTextShadowColor => rmq.color.clear
+        })
+      end
 
       #  UIBarButtonItem.appearance.tap do |o|
       #    o.setTitleTextAttributes( {
@@ -48,4 +49,3 @@ class StandardAppearance
     end
   end
 end
-

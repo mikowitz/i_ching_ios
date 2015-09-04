@@ -9,6 +9,9 @@ class HexagramTableCell < PM::TableViewCell
       @chinese_label = q.append!(UILabel, :chinese_label)
       @english_label = q.append!(UILabel, :english_label)
     end
+    @chinese_label.highlightedTextColor = rmq.color.off_white
+    @english_label.highlightedTextColor = rmq.color.off_white
+    @number_label.highlightedTextColor = rmq.color.off_white
   end
 
   def hexagram=(hexagram)
@@ -18,7 +21,10 @@ class HexagramTableCell < PM::TableViewCell
     rmq(self).all.reapply_styles
   end
 
-  def color(color)
-    rmq(contentView).style { |st| st.background_color = color }
+  def setSelected(selected, animated: animated)
+    super
+    bgView = UIView.alloc.initWithFrame(self.selectedBackgroundView.frame)
+    bgView.setBackgroundColor(rmq.color.off_black)
+    self.setSelectedBackgroundView(bgView)
   end
 end
