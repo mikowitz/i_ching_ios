@@ -3,6 +3,7 @@ class HexagramTableCell < PM::TableViewCell
 
   def rmq_build
     rmq.stylesheet = HexagramTableCellStylesheet
+    rmq(self).apply_style(:hexagram_table_cell)
     rmq(self).tap do |q|
       @number_label = q.append!(UILabel, :number_label)
       @chinese_label = q.append!(UILabel, :chinese_label)
@@ -15,5 +16,9 @@ class HexagramTableCell < PM::TableViewCell
     @chinese_label.text = hexagram["names"]["chinese"]
     @english_label.text = hexagram["names"]["english"]
     rmq(self).all.reapply_styles
+  end
+
+  def color(color)
+    rmq(contentView).style { |st| st.background_color = color }
   end
 end

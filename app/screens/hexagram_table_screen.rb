@@ -2,6 +2,9 @@ class HexagramTableScreen < PM::TableScreen
   title "Hexagrams"
 
   def on_load
+    rmq.stylesheet = HexagramTableScreenStylesheet
+    rmq(self.view).apply_style(:root_view)
+
     @hexagrams = []
     Hexagram.load_async do
       @hexagrams = Turnkey.unarchive("hexagrams")
@@ -27,10 +30,18 @@ class HexagramTableScreen < PM::TableScreen
   end
 
   def show_hexagram(args={})
-    puts args[:hexagram]["names"]["english"]
+    open HexagramScreen.new(nav_bar: true, hexagram: args[:hexagram])
   end
 
-  def tableView(_, heightForRowAtIndexPath:_)
-    60
+  def tableView(table_view, didSelectRowAtIndexPath: index_path)
+    cell = table_view.cellForRowAtIndexPath(index_path)
+    cell.color(rmq.color.red)
+    super
+  end
+
+  def tableView(table_view, didDeselectRowAtIndexPath: index_path)
+    cell = table_view.cellForRowAtIndexPath(index_path)
+    cell.color(rmq.color.off_white)
+    super
   end
 end
