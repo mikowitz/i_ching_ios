@@ -3,6 +3,14 @@ class HexagramScreenStylesheet < ApplicationStylesheet
     st.background_color = color.off_white
   end
 
+  def highlighter(st)
+    st.background_color = rmq.color(hex: "6df", a: 0.5)
+    st.layer.cornerRadius = 4
+    st.layer.masksToBounds = true
+    st.z_position = -10
+    st.frame = { w: st.superview.frame.size.width }
+  end
+
   def hexagram_view(st)
     st.frame = "d1:l10"
     st.background_color = color.white

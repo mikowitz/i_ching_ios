@@ -10,7 +10,8 @@ class AppDelegate < PM::Delegate
         @hexagrams[king_wen.to_i] = hexagram
       end
       Turnkey.archive(@hexagrams, "hexagrams")
-      open HexagramTableScreen.new(nav_bar: true)
+      # open HexagramTableScreen.new(nav_bar: true)
+      open HexagramScreen.new(nav_bar: true, hexagram: Hexagram.new(@hexagrams[63]))
     end
   end
 

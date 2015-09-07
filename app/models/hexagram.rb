@@ -1,5 +1,5 @@
 class Hexagram
-  attr_reader :chinese_name, :english_name, :characters, :english_subtitle
+  attr_reader :chinese_name, :english_name, :characters, :english_subtitle, :binary
 
   def self.load_async(&block)
     Api.get_all_hexagrams(&block)
@@ -9,6 +9,7 @@ class Hexagram
     @chinese_name = params["names"]["chinese"]["pinyin_accented"]
     @english_name, @english_subtitle = build_english_names(params["names"]["english"])
     @characters = params["names"]["chinese"]["characters"]
+    @binary = params["binary"]
   end
 
   private
