@@ -7,7 +7,7 @@ class HexagramScreen < PM::Screen
 
     rmq(self.view).apply_style(:root_view)
 
-    self.title = hexagram.chinese_name + " " + hexagram.characters
+    self.title = hexagram.chinese_name
 
     rmq(self.view).tap do |q|
       q.append!(HexagramView, :hexagram_view).tap do |hexagram_view|
@@ -15,6 +15,14 @@ class HexagramScreen < PM::Screen
       end.draw_hexagram
     end
     draw_english_name
+    draw_chinese_characters
+  end
+
+  def draw_chinese_characters
+    characters = hexagram.characters.split("")
+    characters.each_with_index do |char, index|
+      append!(UILabel, :"character_#{index}").text = char
+    end
   end
 
   def draw_english_name

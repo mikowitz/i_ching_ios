@@ -12,14 +12,10 @@ module Api
     client.get(path, &block)
   end
 
-  def self.get_all_hexagrams
-    get("/hexagrams") do |result|
+  def self.get_all_hexagrams(&block)
+    get("hexagrams") do |result|
       if result.success?
-        hexagrams = {}
-        result.object.each do |(n, h)|
-          hexagrams[n.to_i] = h
-        end
-        Turnkey.archive(hexagrams, "hexagrams")
+        block.call(result.object)
       else
         mp result.error.localizedDescription
       end

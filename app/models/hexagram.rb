@@ -1,9 +1,8 @@
 class Hexagram
   attr_reader :chinese_name, :english_name, :characters, :english_subtitle
 
-  def self.load_async
-    Api.get_all_hexagrams
-    yield
+  def self.load_async(&block)
+    Api.get_all_hexagrams(&block)
   end
 
   def initialize(params)
