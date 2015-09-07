@@ -16,7 +16,7 @@ class HexagramTableCell < PM::TableViewCell
 
   def hexagram=(hexagram)
     @number_label.text = hexagram["king_wen_number"].to_s + "."
-    @chinese_label.text = hexagram["names"]["chinese"]
+    @chinese_label.text = hexagram["names"]["chinese"]["pinyin_accented"]
     @english_label.text = hexagram["names"]["english"]
     rmq(self).all.reapply_styles
   end
