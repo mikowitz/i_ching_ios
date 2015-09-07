@@ -30,18 +30,7 @@ class HexagramTableScreen < PM::TableScreen
   end
 
   def show_hexagram(args={})
-    open HexagramScreen.new(nav_bar: true, hexagram: args[:hexagram])
+    hexagram = Hexagram.new(args[:hexagram])
+    open HexagramScreen.new(nav_bar: true, hexagram: hexagram)
   end
-
-  # def tableView(table_view, didSelectRowAtIndexPath: index_path)
-  #   cell = table_view.cellForRowAtIndexPath(index_path)
-  #   cell.color(rmq.color.off_black, rmq.color.off_white)
-  #   super
-  # end
-
-  # # def tableView(table_view, didDeselectRowAtIndexPath: index_path)
-  # #   cell = table_view.cellForRowAtIndexPath(index_path)
-  # #   cell.color(rmq.color.off_white, rmq.color.off_black)
-  # #   super
-  # # end
 end

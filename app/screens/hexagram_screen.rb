@@ -7,8 +7,7 @@ class HexagramScreen < PM::Screen
 
     rmq(self.view).apply_style(:root_view)
 
-    self.title = hexagram["names"]["chinese"]["pinyin_accented"] +
-                 " " + hexagram["names"]["chinese"]["characters"]
+    self.title = hexagram.chinese_name + " " + hexagram.characters
 
     rmq(self.view).tap do |q|
       q.append!(HexagramView, :hexagram_view).tap do |hexagram_view|
@@ -19,19 +18,15 @@ class HexagramScreen < PM::Screen
   end
 
   def draw_english_name
-    name = hexagram["names"]["english"].scan(/^([^\(\[]+)(.*?)$/)[0]
-    main_name = name[0].strip
-    sub_name = name[1]
     rmq(self.view).tap do |q|
       q.append!(UILabel, :hexagram_english_name).tap do |label|
-        label.text = main_name
+        label.text = hexagram.english_name
       end
-      if sub_name.length > 0
+      if hexagram.english_subtitle
         q.append!(UILabel, :hexagram_english_subtitle).tap do |label|
-          label.text = sub_name
+          label.text = hexagram.english_subtitle
         end
       end
-
     end
   end
 end
