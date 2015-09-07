@@ -4,7 +4,14 @@ class AppDelegate < PM::Delegate
   def on_load(app, options)
     StandardAppearance.apply(self.window)
 
-    open HexagramTableScreen.new(nav_bar: true)
+    Hexagram.load_async do |hexagrams|
+      @hexagrams = {}
+      hexagrams.each do |(king_wen, hexagram)|
+        @hexagrams[king_wen.to_i] = hexagram
+      end
+      Turnkey.archive(@hexagrams, "hexagrams")
+      open HexagramTableScreen.new(nav_bar: true)
+    end
   end
 
   # remove this if you are only supporting portrait

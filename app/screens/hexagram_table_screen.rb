@@ -4,18 +4,7 @@ class HexagramTableScreen < PM::TableScreen
   def on_load
     rmq.stylesheet = HexagramTableScreenStylesheet
     rmq(self.view).apply_style(:root_view)
-    @hexagrams = {}
-    load_async
-  end
-
-  def load_async
-    Hexagram.load_async do |hexagrams|
-      hexagrams.each do |(king_wen, hexagram)|
-        @hexagrams[king_wen.to_i] = hexagram
-      end
-      Turnkey.archive(@hexagrams, "hexagrams")
-      update_table_data
-    end
+    @hexagrams = Turnkey.unarchive("hexagrams")
   end
 
   def table_data
