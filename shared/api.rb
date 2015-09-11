@@ -22,6 +22,16 @@ module Api
     end
   end
 
+  def self.get_all_trigrams(&block)
+    get("trigrams") do |result|
+      if result.success?
+        block.call(result.object)
+      else
+        mp result.error.localizedDescription
+      end
+    end
+  end
+
   def self.client
     @client ||= AFMotion::Client.build(host) do
       header "Accept", "application/json"

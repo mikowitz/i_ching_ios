@@ -11,14 +11,14 @@ class Hexagram
   end
 
   def self.from_json(params)
-    hexagram = Hexagram.new
-    hexagram.chinese_name = params["chinese_name"]
-    hexagram.english_name, hexagram.english_subtitle = Hexagram.build_english_names(params["english_name"])
-    hexagram.characters = params["characters"]
-    hexagram.binary = params["binary"]
-    hexagram.king_wen_number = params["king_wen_number"]
-    hexagram.trigrams = params["trigrams"]
-    hexagram
+    Hexagram.new.tap do |hexagram|
+      hexagram.chinese_name = params["chinese_name"]
+      hexagram.english_name, hexagram.english_subtitle = Hexagram.build_english_names(params["english_name"])
+      hexagram.characters = params["characters"]
+      hexagram.binary = params["binary"]
+      hexagram.king_wen_number = params["king_wen_number"]
+      hexagram.trigrams = params["trigrams"]
+    end
   end
 
   def self.build_english_names(english_name)
