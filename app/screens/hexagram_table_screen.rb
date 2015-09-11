@@ -4,12 +4,13 @@ class HexagramTableScreen < PM::TableScreen
   def on_load
     rmq.stylesheet = HexagramTableScreenStylesheet
     rmq(self.view).apply_style(:root_view)
-    @hexagrams = Turnkey.unarchive("hexagrams")
+    @indices = Turnkey.unarchive("hexagram-indices")
   end
 
   def table_data
     [{
-      cells: @hexagrams.sort_by(&:first).map do |(_, hexagram)|
+      cells: @indices.sort.map do |index|
+        hexagram = Hexagram.find(index)
         {
           cell_class: HexagramTableCell,
           action: :show_hexagram,
@@ -25,7 +26,7 @@ class HexagramTableScreen < PM::TableScreen
   end
 
   def show_hexagram(args={})
-    hexagram = Hexagram.new(args[:hexagram])
+    hexagram = args[:hexagram]
     open HexagramScreen.new(nav_bar: true, hexagram: hexagram)
   end
 end

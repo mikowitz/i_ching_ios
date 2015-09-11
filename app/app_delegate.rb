@@ -6,19 +6,14 @@ class AppDelegate < PM::Delegate
 
     Hexagram.load_async do |hexagrams|
       @hexagrams = {}
-      hexagrams.each do |(king_wen, hexagram)|
-        @hexagrams[king_wen.to_i] = hexagram
+      @hexagram_indices = []
+      hexagrams.each do |hexagram_json
+        hexagram = Hexagram.from_json(hexagram_json)
+        Turnkey.archive(hexagram, "hexagram-#{hexagram.king_wen_number}")
+        @hexagram_indices << hexagram.king_wen_number
       end
-      Turnkey.archive(@hexagrams, "hexagrams")
-      # open HexagramTableScreen.new(nav_bar: true)
-      open HexagramScreen.new(nav_bar: true, hexagram: Hexagram.new(@hexagrams[63]))
+      Turnkey.archive(@hexagram_indices, "hexagram-indices")
+      open HexagramTableScreen.new(nav_bar: true)
     end
-  end
-
-  # remove this if you are only supporting portrait
-  def application(application, willchangestatusbarorientation: new_orientation, duration: duration)
-    # manually set rmq's orientation before the device is actually oriented
-    # so that we can do stuff like style views before the rotation begins
-    device.orientation = new_orientation
   end
 end

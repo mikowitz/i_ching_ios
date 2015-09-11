@@ -1,20 +1,27 @@
 class Hexagram
-  attr_reader :chinese_name, :english_name, :characters, :english_subtitle, :binary
+  attr_accessor :chinese_name, :english_name, :characters, :english_subtitle, :binary, :king_wen_number,
+                :trigrams
 
   def self.load_async(&block)
     Api.get_all_hexagrams(&block)
   end
 
-  def initialize(params)
-    @chinese_name = params["names"]["chinese"]["pinyin_accented"]
-    @english_name, @english_subtitle = build_english_names(params["names"]["english"])
-    @characters = params["names"]["chinese"]["characters"]
-    @binary = params["binary"]
+  def self.find(king_wen_number)
+    Turnkey.unarchive("hexagram-#{king_wen_number}")
   end
 
-  private
+  def self.from_json(params)
+    hexagram = Hexagram.new
+    hexagram.chinese_name = params["chinese_name"]
+    hexagram.english_name, hexagram.english_subtitle = Hexagram.build_english_names(params["english_name"])
+    hexagram.characters = params["characters"]
+    hexagram.binary = params["binary"]
+    hexagram.king_wen_number = params["king_wen_number"]
+    hexagram.trigrams = params["trigrams"]
+    hexagram
+  end
 
-  def build_english_names(english_name)
+  def self.build_english_names(english_name)
     names = english_name.scan(/^([^\(\[]+)(.*?)$/)[0].map(&:strip)
     names[1] == "" ? names[0] : names
   end
