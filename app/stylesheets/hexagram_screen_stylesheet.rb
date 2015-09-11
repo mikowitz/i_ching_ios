@@ -4,7 +4,7 @@ class HexagramScreenStylesheet < ApplicationStylesheet
   end
 
   def highlighter(st)
-    st.background_color = rmq.color(hex: "6df", a: 0.5)
+    st.background_color = color(hex: "6df", a: 0.5)
     st.layer.cornerRadius = 4
     st.layer.masksToBounds = true
     st.z_position = -10
@@ -31,10 +31,16 @@ class HexagramScreenStylesheet < ApplicationStylesheet
   end
 
   def hexagram_line(st)
+    st.layer.cornerRadius = 4
+    st.layer.masksToBounds = true
+  end
+
+  def hexagram_line_segment(st)
     st.background_color = rmq.color.off_black
     st.layer.cornerRadius = 4
     st.layer.masksToBounds = true
   end
+
 
   def character_0(st)
     st.frame = "a1:c3"

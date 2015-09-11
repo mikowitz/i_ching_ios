@@ -5,17 +5,8 @@ class HexagramView < UIView
     @dim = self.frame.size.height / 24
     [1, 5, 9, 13, 17, 21].map { |i| i * dim }.each_with_index do |y, index|
       line = hexagram_lines[index]
-      if line == 1
-        rmq(self).append(UIView, :hexagram_line).style do |st|
-          st.frame = { t: y, h: dim * 2, w: self.frame.size.width - dim * 2, l: dim }
-        end
-      else
-        rmq(self).append(UIView, :hexagram_line).style do |st|
-          st.frame = { t: y, h: dim * 2, w: dim * 7, l: dim }
-        end
-        rmq(self).append(UIView, :hexagram_line).style do |st|
-          st.frame = { t: y, h: dim * 2, w: dim * 7, fr: dim }
-        end
+      rmq(self).append!(HexagramLineView, :hexagram_line).tap do |hexagram_line|
+        hexagram_line.styleForLine(line, atY: y)
       end
     end
     rmq(self).on(:long_press) do
@@ -59,8 +50,28 @@ class HexagramView < UIView
   end
 
   def highlight_hexagram
-    highlighter.style do |st|
-      st.frame = { t: 0, l: 0, w: st.superview.frame.size.width, h: st.superview.frame.size.height }
+    if highlighter.frame.height == 0
+      highlighter.style do |st|
+        st.frame = { h: self.frame.size.height }
+        st.background_color = rmq.color.clear
+      end
+      highlighter.animate(
+        duration: 0.5,
+        animations: -> (q) {
+          highlighter.style do |st|
+            st.background_color = rmq.color(hex: "6df", a: 0.5)
+          end
+        }
+      )
+    else
+      highlighter.animate(
+        duration: 0.5,
+        animations: -> (q) {
+          highlighter.style do |st|
+            st.frame = { h: st.superview.frame.size.height, t: 0 }
+          end
+        }
+      )
     end
   end
 
