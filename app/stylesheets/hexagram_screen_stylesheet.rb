@@ -31,14 +31,12 @@ class HexagramScreenStylesheet < ApplicationStylesheet
   end
 
   def hexagram_line(st)
-    st.layer.cornerRadius = 4
-    st.layer.masksToBounds = true
+    rounded(st)
   end
 
   def hexagram_line_segment(st)
     st.background_color = rmq.color.off_black
-    st.layer.cornerRadius = 4
-    st.layer.masksToBounds = true
+    rounded(st)
   end
 
 
@@ -53,13 +51,8 @@ class HexagramScreenStylesheet < ApplicationStylesheet
   end
 
   def character(st)
-    st.font = font.system(50)
+    st.font = font.font_with_name("STHeitiSC-Medium", 50)
     st.color = color.off_black
     st.text_alignment = :center
-  end
-
-  def bordered(st, color)
-    st.border_color = color.CGColor
-    st.border_width = 2.0
   end
 end

@@ -14,9 +14,32 @@ class HexagramView < UIView
     end
 
     rmq(self).on(:pan) do |_, event|
-      position_highlighter(event.location.y)
-      if event.recognizer.state == UIGestureRecognizerStateEnded
+      if event.recognizer.state == UIGestureRecognizerStateBegan
+        if highlighter.frame.height == 0
+          highlighter.style do |st|
+            st.background_color = rmq.color.clear
+          end
+          position_highlighter(event.location.y)
+          highlighter.animate(
+            duration: 0.5,
+            animations: -> (q) {
+              highlighter.style do |st|
+                st.background_color = rmq.color(hex: "6df", a: 0.5)
+              end
+            }
+          )
+        else
+          highlighter.animate(
+            duration: 0.5,
+            animations: -> (q) {
+              position_highlighter(event.location.y)
+            }
+          )
+        end
+      elsif event.recognizer.state == UIGestureRecognizerStateEnded
         draw_highlighter(event)
+      else
+        position_highlighter(event.location.y)
       end
     end
   end
@@ -28,6 +51,9 @@ class HexagramView < UIView
     highlighter.animate(
       duration: 0.3,
       animations: -> (q) {
+        index = possible_centers.index(actual_center)
+        trigram = hexagram.trigrams[index]
+        mp Trigram.find(trigram)
         position_highlighter(actual_center)
       }
     )

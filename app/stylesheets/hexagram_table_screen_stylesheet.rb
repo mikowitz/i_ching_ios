@@ -4,6 +4,6 @@ class HexagramTableScreenStylesheet < ApplicationStylesheet
   end
 
   def root_view(st)
-    st.background_color = color.cyan
+    st.background_color = color.off_white
   end
 end

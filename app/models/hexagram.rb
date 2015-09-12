@@ -17,8 +17,17 @@ class Hexagram
       hexagram.characters = params["characters"]
       hexagram.binary = params["binary"]
       hexagram.king_wen_number = params["king_wen_number"]
-      hexagram.trigrams = params["trigrams"]
+      hexagram.trigrams = Hexagram.build_trigrams(params["trigrams"])
     end
+  end
+
+  def self.build_trigrams(trigrams)
+    ret = []
+    ret << trigrams["upper"]
+    ret << trigrams["nuclear"]["upper"]
+    ret << trigrams["nuclear"]["lower"]
+    ret << trigrams["lower"]
+    ret
   end
 
   def self.build_english_names(english_name)

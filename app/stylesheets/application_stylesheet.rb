@@ -28,6 +28,16 @@ class ApplicationStylesheet < RubyMotionQuery::Stylesheet
     StandardAppearance.apply app.window
   end
 
+  def rounded(st)
+    st.corner_radius = 4
+    st.masks_to_bounds = true
+  end
+
+  def bordered(st, color)
+    st.border_color = color.CGColor
+    st.border_width = 2.0
+  end
+
   def standard_button(st)
     st.frame = {w: 40, h: 18}
     st.background_color = color.tint
@@ -39,5 +49,4 @@ class ApplicationStylesheet < RubyMotionQuery::Stylesheet
     st.background_color = color.clear
     st.color = color.black
   end
-
 end

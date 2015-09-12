@@ -8,21 +8,33 @@ class HexagramTableScreen < PM::TableScreen
   end
 
   def table_data
-    [{
-      cells: @indices.sort.map do |index|
-        hexagram = Hexagram.find(index)
-        {
-          cell_class: HexagramTableCell,
-          action: :show_hexagram,
-          arguments: {
-            hexagram: hexagram
-          },
-          style: {
-            hexagram: hexagram
+    [
+      {
+        title: "Cast hexagram",
+        title_view_height: 50,
+        cells: [{
+           title: "Cast hexagram",
+           action: :cast_hexagram
+         }]
+      },
+      {
+        title: "Hexagrams",
+        title_view_height: 50,
+        cells: @indices.sort.map do |index|
+          hexagram = Hexagram.find(index)
+          {
+            cell_class: HexagramTableCell,
+            action: :show_hexagram,
+            arguments: {
+              hexagram: hexagram
+            },
+            style: {
+              hexagram: hexagram
+            }
           }
-        }
-      end
-    }]
+        end
+      }
+    ]
   end
 
   def show_hexagram(args={})
