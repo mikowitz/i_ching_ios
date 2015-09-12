@@ -8,10 +8,6 @@ Motion::Require.all
 require 'bundler'
 Bundler.require
 
-# require 'bubble-wrap'
-
-Dir.glob("lib/tasks/*.rake").each { |r| import r }
-
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings
 
