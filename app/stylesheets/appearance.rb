@@ -46,6 +46,10 @@ class StandardAppearance
       #    }, forState: UIControlStateDisabled)
       #  end
 
+      UIPageControl.appearance.tap do |o|
+        o.pageIndicatorTintColor = rmq.color.black
+        o.currentPageIndicatorTintColor = rmq.color.white
+      end
     end
   end
 end

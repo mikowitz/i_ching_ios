@@ -1,5 +1,16 @@
 class HexagramView < UIView
-  attr_accessor :hexagram, :dim
+  attr_accessor :hexagram, :dim, :lines
+
+  def draw_lines
+    @dim = self.frame.size.height / 24
+    puts lines.inspect
+    [1, 5, 9, 13, 17, 21].map { |i| i * dim }.each_with_index do |y, index|
+      line = lines[index]
+      rmq(self).append!(HexagramLineView, :hexagram_line).tap do |hexagram_line|
+        hexagram_line.styleForLine(line, atY: y)
+      end
+    end
+  end
 
   def draw_hexagram(size=20)
     @dim = self.frame.size.height / 24

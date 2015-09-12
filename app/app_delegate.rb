@@ -1,4 +1,5 @@
 class AppDelegate < PM::Delegate
+  attr_accessor :carousel
   status_bar true, animation: :fade
 
   def on_load(app, options)
@@ -17,7 +18,10 @@ class AppDelegate < PM::Delegate
           @hexagram_indices << hexagram.king_wen_number
         end
         Turnkey.archive(@hexagram_indices, "hexagram-indices")
-        open HexagramTableScreen.new(nav_bar: true)
+        Api.cast_hexagram(:yarrow) do |result|
+          open CastingScreen.new(nav_bar: true, lines: result["lines"].reverse, stabilized: result["stabilized"],
+                                 changed: result["changed"])
+        end
       end
     end
   end

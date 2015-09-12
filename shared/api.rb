@@ -1,19 +1,14 @@
 module Api
   def self.host
-    Settings.api_host.chomp("/")
+    Settings.api_host.chomp("/") + self.api_prefix
   end
 
   def self.api_prefix
-    "/api/v#{Settings.api_current_version}"
-  end
-
-  def self.get(path, &block)
-    path = [api_prefix, path].join("/")
-    client.get(path, &block)
+    "/api/v#{Settings.api_current_version}/"
   end
 
   def self.get_all_hexagrams(&block)
-    get("hexagrams") do |result|
+    client.get("hexagrams") do |result|
       if result.success?
         block.call(result.object)
       else
@@ -23,7 +18,17 @@ module Api
   end
 
   def self.get_all_trigrams(&block)
-    get("trigrams") do |result|
+    client.get("trigrams") do |result|
+      if result.success?
+        block.call(result.object)
+      else
+        mp result.error.localizedDescription
+      end
+    end
+  end
+
+  def self.cast_hexagram(method, &block)
+    client.get ("hexagram.#{method}") do |result|
       if result.success?
         block.call(result.object)
       else

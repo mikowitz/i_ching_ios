@@ -2,35 +2,53 @@ class HomeScreen < PM::Screen
   # title "Your title here"
   # stylesheet HomeScreenStylesheet
 
-  # def on_load
-  #   set_nav_bar_button :left, system_item: :camera, action: :nav_left_button
-  #   set_nav_bar_button :right, title: "Right", action: :nav_right_button
+  def on_load
+    rmq.stylesheet = HexagramScreenStylesheet
+    rmq(self.view).style do |st|
+      st.background_color = rmq.color.off_white
+    end
+    @carousel = PageTestScreen.new
+    @carousel.append_to(self, controllers[1])
+  end
 
-  #   @hello_world = append!(UILabel, :hello_world)
-  # end
+  def controllers
+    @controllers ||= [
+      # PM::Screen.new.tap do |screen|
+      #   rmq(screen.view).style { |st| st.background_color = rmq.color.red }
+      # end,
+      # PM::Screen.new.tap do |screen|
+      #   rmq(screen.view).style { |st| st.background_color = rmq.color.blue }
+      # end,
+      # PM::Screen.new.tap do |screen|
+      #   rmq(screen.view).style { |st| st.background_color = rmq.color.green }
+      # end
+    ]
+  end
 
-  # def nav_left_button
-  #   mp 'Left button'
-  # end
 
-  # def nav_right_button
-  #   mp 'Right button'
-  # end
+  def index_of_controller(controller)
+    controllers.index(controller)
+  end
 
-  # # You don't have to reapply styles to all UIViews, if you want to optimize, another way to do it
-  # # is tag the views you need to restyle in your stylesheet, then only reapply the tagged views, like so:
-  # #   def logo(st)
-  # #     st.frame = {t: 10, w: 200, h: 96}
-  # #     st.centered = :horizontal
-  # #     st.image = image.resource('logo')
-  # #     st.tag(:reapply_style)
-  # #   end
-  # #
-  # # Then in will_animate_rotate
-  # #   find(:reapply_style).reapply_styles#
+  def pageViewController(pvc, viewControllerBeforeViewController: vc)
+    index = index_of_controller(vc)
 
-  # # Remove the following if you're only using portrait
-  # def will_animate_rotate(orientation, duration)
-  #   find.all.reapply_styles
-  # end
+    return nil if index < 1
+    controllers[index - 1]
+  end
+
+  def pageViewController(pvc, viewControllerAfterViewController:vc)
+    index = index_of_controller(vc)
+    return nil if index == controllers.size - 1
+
+    controllers[index + 1]
+  end
+
+  def presentationCountForPageViewController(pageViewController)
+    controllers.size
+  end
+
+  def presentationIndexForPageViewController(pageViewController)
+    return 0
+  end
 end
