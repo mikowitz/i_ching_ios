@@ -8,9 +8,8 @@ class CastingScreen < PM::Screen
       st.background_color = rmq.color.off_white
     end
     self.title = Hexagram.find(stabilized).chinese_name
-    self.current_screen = controllers[1]
     @carousel = PageTestScreen.new
-    @carousel.append_to(self, self.current_screen)
+    @carousel.append_to(self, controllers[1])
   end
 
   def controllers
