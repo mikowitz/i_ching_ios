@@ -4,4 +4,16 @@ class ChangeCircleView < UIView
     self.layer.cornerRadius = diameter / 2.0
     self
   end
+
+  def highlight
+    rmq(:change_circle).style do |st|
+      st.border_color = rmq.color(80, 80, 80).CGColor
+    end
+    rmq(:change_x_line).style do |st|
+      st.background_color = rmq.color(80, 80, 80)
+    end
+    rmq(self).style do |st|
+      st.border_color = rmq.color.blue.CGColor
+    end
+  end
 end

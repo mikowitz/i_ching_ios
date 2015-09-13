@@ -31,7 +31,7 @@ class CastingScreenStylesheet < ApplicationStylesheet
 
   def hexagram_view(st)
     st.frame = "d1:l10"
-    st.background_color = color.white
+    st.background_color = color.off_white
   end
 
   def hexagram_english_name(st)

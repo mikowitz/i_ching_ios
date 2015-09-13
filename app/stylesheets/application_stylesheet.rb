@@ -49,4 +49,8 @@ class ApplicationStylesheet < RubyMotionQuery::Stylesheet
     st.background_color = color.clear
     st.color = color.black
   end
+
+  def paginator(st)
+    st.background_color = color.off_white
+  end
 end

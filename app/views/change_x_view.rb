@@ -12,4 +12,16 @@ class ChangeXView < UIView
       q.append!(UIView, :change_x_line).transform = CGAffineTransformMakeRotation(45 * Math::PI / 180)
     end
   end
+
+  def highlight
+    rmq(:change_circle).style do |st|
+      st.border_color = rmq.color(80, 80, 80).CGColor
+    end
+    rmq(:change_x_line).style do |st|
+      st.background_color = rmq.color(80, 80, 80)
+    end
+    rmq(self).find(:change_x_line).style do |st|
+      st.background_color = rmq.color.blue
+    end
+  end
 end

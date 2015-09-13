@@ -69,7 +69,7 @@ class HexagramTableScreen < PM::TableScreen
   def cast_hexagram(method)
     Proc.new { |_|
       Api.cast_hexagram(method) do |res|
-        open CastingScreen.new(nav_bar: true, lines: res["lines"])
+        open CastingScreen.new(nav_bar: true, lines: res["lines"].reverse, stabilized: res["stabilized"], changed: res["changed"])
       end
     }.weak!
   end

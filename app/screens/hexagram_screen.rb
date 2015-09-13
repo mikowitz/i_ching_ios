@@ -10,12 +10,17 @@ class HexagramScreen < PM::Screen
     self.title = hexagram.chinese_name
 
     rmq(self.view).tap do |q|
-      q.append!(HexagramView, :hexagram_view).tap do |hexagram_view|
+      @hexagram_view = q.append!(HexagramView, :hexagram_view).tap do |hexagram_view|
         hexagram_view.hexagram = hexagram
-      end.draw_hexagram
+      end
+      @hexagram_view.draw_hexagram
     end
     draw_english_name
     draw_chinese_characters
+  end
+
+  def on_disappear
+    @hexagram_view.highlighter.get.removeFromSuperview
   end
 
   def draw_chinese_characters

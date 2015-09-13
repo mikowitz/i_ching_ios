@@ -8,6 +8,8 @@ Motion::Require.all
 require 'bundler'
 Bundler.require
 
+ENV["ENV"] ||= "development"
+
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings
 
@@ -47,7 +49,8 @@ Motion::Project::App.setup do |app|
   # app.vendor_project('vendor/DSLCalendarView', :static, :cflags => '-fobjc-arc') # Using arc
 
   app.pods do
-    # pod 'SDWebImage'
+    pod "AFNetworking", "~> 2.5.0"
+  #   pod 'SDWebImage'
   #   pod 'JGProgressHUD'
   #   pod 'SVProgressHUD'
   #   pod "FontasticIcons"

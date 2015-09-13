@@ -30,38 +30,31 @@ class HexagramLineView < UIView
   end
 
   def drawChangeCircle
-    diameter = self.frame.size.height + 26
-    top = self.frame.origin.y - 13
-    rmq(self.superview).append(ChangeCircleView.alloc.initWithDiameter(diameter, top: top), :change_circle).on(:tap) do
-    # rmq(self.superview).append(UIView, :change_circle).style do |st|
-    #   diameter = self.frame.size.height + 26
-    #   st.corner_radius = diameter / 2
-    #   st.frame = { h: diameter, w: diameter, t: self.frame.origin.y - 13, centered: :horizontal }
-    # end.on(:tap) do
-      puts "tapped circle"
+    diameter = self.frame.size.height + 24
+    top = self.frame.origin.y - 12
+    rmq(self.superview).append(ChangeCircleView.alloc.initWithDiameter(diameter, top: top), :change_circle).on(:tap) do |circle|
+      circle.highlight
     end
   end
 
   def drawChangeX
-    # rmq(self.superview).append(UIView, :change_x_box).style do |st|
-    #   diameter = self.frame.size.height + 26
-    #   st.frame = { h: diameter, w: diameter, t: self.frame.origin.y - 13, centered: :horizontal }
-    # end.on(:tap) do
-    #   puts "tapped x"
-    # end.tap do |q|
-    #   q.append!(UIView, :change_x_line).transform = CGAffineTransformMakeRotation(-45 * Math::PI / 180)
-    #   q.append!(UIView, :change_x_line).transform = CGAffineTransformMakeRotation(45 * Math::PI / 180)
-    # end
     diameter = self.frame.size.height + 26
     top = self.frame.origin.y - 13
-    rmq(self.superview).append(ChangeXView.alloc.initWithDiameter(diameter, top: top), :change_x).on(:tap) do
-      puts "tapped X"
+    rmq(self.superview).append(ChangeXView.alloc.initWithDiameter(diameter, top: top), :change_x).on(:tap) do |x|
+      x.highlight
     end
   end
 
   def drawLineSegmentAtX(x, withWidth: width)
+    if line == 9 || line == 6
+      h = self.frame.size.height - 4
+      top = 2
+    else
+      h = self.frame.size.height
+      top = 0
+    end
     rmq(self).append(UIView, :hexagram_line_segment).style do |st|
-      st.frame = { l: x, h: self.frame.size.height, t: 0, w: width }
+      st.frame = { l: x, h: h, t: top, w: width }
     end
   end
 end
