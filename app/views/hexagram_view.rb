@@ -1,5 +1,5 @@
 class HexagramView < UIView
-  attr_accessor :hexagram, :dim, :lines
+  attr_accessor :hexagram, :dim, :lines, :delegate
 
   def draw_lines
     @dim = self.frame.size.height / 24
@@ -7,7 +7,7 @@ class HexagramView < UIView
     [1, 5, 9, 13, 17, 21].map { |i| i * dim }.each_with_index do |y, index|
       line = lines[index]
       rmq(self).append!(HexagramLineView, :hexagram_line).tap do |hexagram_line|
-        hexagram_line.styleForLine(line, atY: y)
+        hexagram_line.styleForLine(line, atY: y, index: index)
       end
     end
   end
@@ -63,8 +63,6 @@ class HexagramView < UIView
       duration: 0.3,
       animations: -> (q) {
         index = possible_centers.index(actual_center)
-        trigram = hexagram.trigrams[index]
-        mp Trigram.find(trigram)
         position_highlighter(actual_center)
       }
     )

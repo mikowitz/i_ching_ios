@@ -20,7 +20,10 @@ class HexagramScreen < PM::Screen
   end
 
   def on_disappear
-    @hexagram_view.highlighter.get.removeFromSuperview
+    @hexagram_view.highlighter.style do |st|
+      st.background_color = rmq.color.clear
+      st.frame = { h: 0, t: 0 }
+    end
   end
 
   def draw_chinese_characters

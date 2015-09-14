@@ -7,14 +7,12 @@ class AppDelegate < PM::Delegate
     Trigram.load_async do |trigrams|
       trigrams.each do |trigram_json|
         trigram = Trigram.from_json(trigram_json)
-        puts trigram
         Turnkey.archive(trigram, "trigram-#{trigram.number}")
       end
       Hexagram.load_async do |hexagrams|
         @hexagram_indices = []
         hexagrams.each do |hexagram_json|
           hexagram = Hexagram.from_json(hexagram_json)
-          puts hexagram
           Turnkey.archive(hexagram, "hexagram-#{hexagram.king_wen_number}")
           @hexagram_indices << hexagram.king_wen_number
         end

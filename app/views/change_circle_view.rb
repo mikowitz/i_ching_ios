@@ -7,13 +7,13 @@ class ChangeCircleView < UIView
 
   def highlight
     rmq(:change_circle).style do |st|
-      st.border_color = rmq.color(80, 80, 80).CGColor
+      st.border_color = rmq.color.old_marker.CGColor
     end
     rmq(:change_x_line).style do |st|
-      st.background_color = rmq.color(80, 80, 80)
+      st.background_color = rmq.color.old_marker
     end
     rmq(self).style do |st|
-      st.border_color = rmq.color.blue.CGColor
+      st.border_color = rmq.color.old_marker_highlighted.CGColor
     end
   end
 end

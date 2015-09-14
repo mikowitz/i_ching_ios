@@ -6,13 +6,13 @@ class CastingScreenStylesheet < ApplicationStylesheet
 
   def change_circle(st)
     st.masks_to_bounds = true
-    st.border_color = color(80, 80, 80).CGColor
+    st.border_color = color.old_marker.CGColor
     st.border_width = 8.0
     st.frame = { centered: :horizontal }
   end
 
   def change_x_line(st)
-    st.background_color = color(80, 80, 80)
+    st.background_color = color.old_marker
     st.frame = { w: 8, h: st.superview.size.height, t: 0, centered: :horizontal }
   end
 
@@ -21,16 +21,9 @@ class CastingScreenStylesheet < ApplicationStylesheet
     st.frame = { centered: :horizontal }
   end
 
-  def highlighter(st)
-    st.background_color = color(hex: "6df", a: 0.5)
-    st.layer.cornerRadius = 4
-    st.layer.masksToBounds = true
-    st.z_position = -10
-    st.frame = { w: st.superview.frame.size.width }
-  end
-
   def hexagram_view(st)
     st.frame = "d1:l10"
+    st.frame = { centered: :horizontal }
     st.background_color = color.off_white
   end
 

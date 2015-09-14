@@ -4,7 +4,7 @@ module Api
   end
 
   def self.api_prefix
-    "/api/v#{Settings.api_current_version}/"
+    "/v#{Settings.api_current_version}/"
   end
 
   def self.get_all_hexagrams(&block)

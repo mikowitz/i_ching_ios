@@ -1,5 +1,5 @@
 ---
 app_name: I Ching Dev
 app_identifier: com.songsaboutsnow.i_ching_dev
-api_host: http://iching.dev.com:9393
+api_host: http://iching.dev.com:4000
 api_current_version: 1

@@ -24,6 +24,8 @@ class ApplicationStylesheet < RubyMotionQuery::Stylesheet
     color.add_named :battleship_gray,   '#7F7F7F'
     color.add_named :off_black, color(10, 10, 10, 1.0)
     color.add_named :off_white, color(250, 250, 250, 1.0)
+    color.add_named :old_marker, color(60, 60, 200, 1.0)
+    color.add_named :old_marker_highlighted, color(60, 60, 255, 1.0)
 
     StandardAppearance.apply app.window
   end
