@@ -43,34 +43,11 @@ class HexagramTableScreen < PM::TableScreen
   end
 
   def present_casting_options
-    alert = UIAlertController.alertControllerWithTitle("Choose Method",
-                                                       message: nil,
-                                                       preferredStyle: UIAlertControllerStyleActionSheet)
-    yarrow = UIAlertAction.actionWithTitle("Yarrow",
-                                           style: UIAlertActionStyleDefault,
-                                           handler: cast_hexagram(:yarrow))
-    coins = UIAlertAction.actionWithTitle("Coins",
-                                           style: UIAlertActionStyleDefault,
-                                           handler: cast_hexagram(:coins))
-    random = UIAlertAction.actionWithTitle("Random",
-                                           style: UIAlertActionStyleDefault,
-                                           handler: cast_hexagram(:random))
-    cancel = UIAlertAction.actionWithTitle("Cancel",
-                                           style: UIAlertActionStyleCancel,
-                                           handler: nil)
-    alert.addAction(yarrow)
-    alert.addAction(coins)
-    alert.addAction(random)
-    alert.addAction(cancel)
-
-    presentViewController(alert, animated: true, completion: nil)
-  end
-
-  def cast_hexagram(method)
-    Proc.new { |_|
-      Api.cast_hexagram(method) do |res|
-        open CastingScreen.new(nav_bar: true, lines: res["lines"].reverse, stabilized: res["stabilized"], changed: res["changed"])
-      end
-    }.weak!
+    alert = CastingOptionsAlert.new
+    presentViewController(
+      CastingOptionsAlert.instance.controller,
+      animated: true,
+      completion: nil
+    )
   end
 end
