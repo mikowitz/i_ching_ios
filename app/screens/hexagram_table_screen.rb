@@ -43,11 +43,23 @@ class HexagramTableScreen < PM::TableScreen
   end
 
   def present_casting_options
-    alert = CastingOptionsAlert.new
+    alert = CastingOptionsAlert.new.tap do |alert|
+      alert.delegate = self
+      alert.wire_alert
+    end
+
     presentViewController(
-      CastingOptionsAlert.instance.controller,
+      alert.controller,
       animated: true,
       completion: nil
     )
+  end
+
+  def cast_hexagram(method)
+    Proc.new { |_|
+      Api.cast_hexagram(method) do |res|
+        open CastingScreen.new(nav_bar: true, lines: res["lines"], stabilized: res["stabilized"], changed: res["changed"])
+      end
+    }.weak!
   end
 end

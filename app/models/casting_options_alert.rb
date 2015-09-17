@@ -1,18 +1,15 @@
 class CastingOptionsAlert
-  attr_accessor :controller
-
-  def self.instance
-    Dispatch.once { @instance ||= new }
-    @instance
-  end
+  attr_accessor :controller, :delegate
 
   def initialize
     @controller = alert_controller
+  end
+
+  def wire_alert
     %w( Yarrow Coins Random ).each do |casting_method|
       add_action(casting_method)
     end
     add_cancel_action
-    @controller
   end
 
   def alert_controller
@@ -28,7 +25,7 @@ class CastingOptionsAlert
       UIAlertAction.actionWithTitle(
         casting_method,
         style: UIAlertActionStyleDefault,
-        handler: CastingOptionsAlert.cast_hexagram(casting_method.downcase)
+        handler: delegate.cast_hexagram(casting_method.downcase)
       )
     )
   end
@@ -41,14 +38,5 @@ class CastingOptionsAlert
         handler: nil
       )
     )
-  end
-
-  def self.cast_hexagram(method)
-    Proc.new { |_|
-      mp res
-      # Api.cast_hexagram(method) do |res|
-      #   mp res
-      # end
-    }.weak!
   end
 end

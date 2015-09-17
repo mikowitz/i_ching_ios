@@ -26,6 +26,7 @@ class ApplicationStylesheet < RubyMotionQuery::Stylesheet
     color.add_named :off_white, color(250, 250, 250, 1.0)
     color.add_named :old_marker, color(60, 60, 200, 1.0)
     color.add_named :old_marker_highlighted, color(60, 60, 255, 1.0)
+    color.add_named :highlighter, color(hex: "6df", a: 0.5)
 
     StandardAppearance.apply app.window
   end

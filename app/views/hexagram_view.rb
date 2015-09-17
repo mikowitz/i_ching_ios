@@ -1,10 +1,20 @@
 class HexagramView < UIView
-  attr_accessor :hexagram, :dim, :lines, :delegate
+  attr_accessor :hexagram, :lines, :delegate
+
+  def dim
+    @dim ||= self.frame.size.height / 24
+  end
+
+  def line_positions
+    @line_positions ||= [21, 17, 13, 9, 5, 1].map { |i| i * dim }
+  end
+
+  def possible_highlighter_centers
+    @possible_highlighter_centers ||= [6, 10, 14 , 18].map { |i| i * dim }
+  end
 
   def draw_lines
-    @dim = self.frame.size.height / 24
-    puts lines.inspect
-    [1, 5, 9, 13, 17, 21].map { |i| i * dim }.each_with_index do |y, index|
+    line_positions.each_with_index do |y, index|
       line = lines[index]
       rmq(self).append!(HexagramLineView, :hexagram_line).tap do |hexagram_line|
         hexagram_line.styleForLine(line, atY: y, index: index)
@@ -13,104 +23,37 @@ class HexagramView < UIView
   end
 
   def draw_hexagram(size=20)
-    @dim = self.frame.size.height / 24
-    [1, 5, 9, 13, 17, 21].map { |i| i * dim }.each_with_index do |y, index|
+    line_positions.each_with_index do |y, index|
       line = hexagram_lines[index]
       rmq(self).append!(HexagramLineView, :hexagram_line).tap do |hexagram_line|
         hexagram_line.styleForLine(line, atY: y)
       end
     end
-    rmq(self).on(:long_press) do
-      highlight_hexagram
-    end
-
-    rmq(self).on(:pan) do |_, event|
-      if event.recognizer.state == UIGestureRecognizerStateBegan
-        if highlighter.frame.height == 0
-          highlighter.style do |st|
-            st.background_color = rmq.color.clear
-          end
-          position_highlighter(event.location.y)
-          highlighter.animate(
-            duration: 0.5,
-            animations: -> (q) {
-              highlighter.style do |st|
-                st.background_color = rmq.color(hex: "6df", a: 0.5)
-              end
-            }
-          )
-        else
-          highlighter.animate(
-            duration: 0.5,
-            animations: -> (q) {
-              position_highlighter(event.location.y)
-            }
-          )
-        end
-      elsif event.recognizer.state == UIGestureRecognizerStateEnded
-        draw_highlighter(event)
-      else
-        position_highlighter(event.location.y)
-      end
-    end
+    positioner.register_long_press_gesture_recognizer(self)
+    positioner.register_pan_gesture_recognizer(self)
   end
 
   def draw_highlighter(event)
-    possible_centers = [6, 10, 14, 18].map {|i| dim * i }
-    y = event.location.y
-    actual_center = possible_centers.sort_by { |center| (center - y).abs }.first
-    highlighter.animate(
-      duration: 0.3,
-      animations: -> (q) {
-        index = possible_centers.index(actual_center)
-        position_highlighter(actual_center)
-      }
-    )
+    positioner.draw_highlighter(event)
   end
 
   def highlighter
     @highlighter ||= rmq(self).append(UIView, :highlighter)
   end
 
+  def positioner
+    @positioner ||= HighlighterPositioner.new(highlighter)
+  end
+
   def position_highlighter(center)
-    highlighter.style do |st|
-      t = center - (dim * 6)
-      if t < 0
-        t = 0
-      elsif t > dim * 12
-        t = dim * 12
-      end
-      st.frame = { h: dim * 12, t: t }
-    end
+    positioner.position_highlighter(center, dim * 12)
   end
 
   def highlight_hexagram
-    if highlighter.frame.height == 0
-      highlighter.style do |st|
-        st.frame = { h: self.frame.size.height }
-        st.background_color = rmq.color.clear
-      end
-      highlighter.animate(
-        duration: 0.5,
-        animations: -> (q) {
-          highlighter.style do |st|
-            st.background_color = rmq.color(hex: "6df", a: 0.5)
-          end
-        }
-      )
-    else
-      highlighter.animate(
-        duration: 0.5,
-        animations: -> (q) {
-          highlighter.style do |st|
-            st.frame = { h: st.superview.frame.size.height, t: 0 }
-          end
-        }
-      )
-    end
+    positioner.highlight_hexagram
   end
 
   def hexagram_lines
-    hexagram.binary.split("").reverse.map(&:to_i)
+    hexagram.binary.split("").map(&:to_i)
   end
 end

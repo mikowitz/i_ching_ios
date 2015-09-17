@@ -8,7 +8,7 @@ class HexagramLineView < UIView
   def styleForLine(line, atY: y, index: index)
     @line = line
     @dim = superview.dim
-    @index = 6 - index
+    @index = index + 1
 
     rmq(self).style do |st|
       st.frame = { t: y, h: dim * 2, w: superview.frame.size.width - dim * 2, l: dim }
@@ -42,8 +42,8 @@ class HexagramLineView < UIView
   end
 
   def drawChangeCircle
-    diameter = self.frame.size.height + 24
-    top = self.frame.origin.y - 12
+    diameter = self.frame.size.height + 22
+    top = self.frame.origin.y - 11
     rmq(self.superview).append(ChangeCircleView.alloc.initWithDiameter(diameter, top: top), :change_circle).on(:tap) do |circle|
       show_info_for_line
       circle.highlight
@@ -51,8 +51,8 @@ class HexagramLineView < UIView
   end
 
   def drawChangeX
-    diameter = self.frame.size.height + 26
-    top = self.frame.origin.y - 13
+    diameter = self.frame.size.height + 24
+    top = self.frame.origin.y - 12
     rmq(self.superview).append(ChangeXView.alloc.initWithDiameter(diameter, top: top), :change_x).on(:tap) do |x|
       show_info_for_line
       x.highlight

@@ -1,4 +1,4 @@
-class PageTestScreen < UIPageViewController
+class CastPageViewScreen < UIPageViewController
   def self.new
     self.alloc.initWithTransitionStyle(
       UIPageViewControllerTransitionStyleScroll,
@@ -20,8 +20,4 @@ class PageTestScreen < UIPageViewController
       completion: nil
     )
   end
-
-  # def title
-  #   self.viewControllers.first.title
-  # end
 end

@@ -4,7 +4,7 @@ class HexagramScreenStylesheet < ApplicationStylesheet
   end
 
   def highlighter(st)
-    st.background_color = color(hex: "6df", a: 0.5)
+    st.background_color = color.highlighter
     st.layer.cornerRadius = 4
     st.layer.masksToBounds = true
     st.z_position = -10
@@ -51,7 +51,7 @@ class HexagramScreenStylesheet < ApplicationStylesheet
   end
 
   def character(st)
-    st.font = font.font_with_name("STHeitiSC-Medium", 50)
+    st.font = font.font_with_name("STHeitiSC-Medium", 84)
     st.color = color.off_black
     st.text_alignment = :center
   end

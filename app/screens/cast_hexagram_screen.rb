@@ -14,12 +14,7 @@ class CastHexagramScreen < PM::Screen
   end
 
   def on_disappear
-    rmq(:change_circle).style do |st|
-      st.border_color = rmq.color.old_marker.CGColor
-    end
-    rmq(:change_x_line).style do |st|
-      st.background_color = rmq.color.old_marker
-    end
+    clear_highlighted_line
   end
 
   def show_info_for_line(title, message)
