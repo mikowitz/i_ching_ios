@@ -5,27 +5,48 @@ class HighlighterPositioner
     @highlighter = highlighter
   end
 
-  def position_highlighter(center, height)
-    t = center - height / 2
-    if t <= 0
-      t = 0
-    elsif t >= height
-      t = height
+  def register_pan_gesture_recognizer
+    rmq(hexagram_view).on(:pan) do |_, event|
+      case event.recognizer.state
+      when UIGestureRecognizerStateBegan
+        if highlighter.frame.height == 0
+          color_highlighter(rmq.color.clear)
+          position_trigram_highlight(event)
+          animate { color_highlighter(rmq.color.highlighter) }
+        else
+          animate { position_trigram_highlight(event) }
+        end
+      when UIGestureRecognizerStateEnded
+        draw_highlighter(event)
+      else
+        position_trigram_highlight(event)
+      end
     end
-    frame_highlighter(h: height, t: t)
+  end
+
+  def register_long_press_gesture_recognizer
+    rmq(hexagram_view).on(:long_press) {highlight_hexagram }
+  end
+
+  def position_trigram_highlight(event)
+    position_highlighter(event.location.y)
+  end
+
+  def color_highlighter(color)
+    highlighter.style { |st| st.background_color = color }
+  end
+
+  def frame_highlighter(frame)
+    highlighter.style { |st| st.frame = frame }
   end
 
   def highlight_hexagram
     if highlighter.frame.height == 0
       frame_highlighter(h: hexagram_view.frame.size.height, t: 0)
       color_highlighter(rmq.color.clear)
-      animate do
-        color_highlighter(rmq.color.highlighter)
-      end
+      animate { color_highlighter(rmq.color.highlighter) }
     else
-      animate do
-        frame_highlighter(h: hexagram_view.frame.size.height, t: 0)
-      end
+      animate { frame_highlighter(h: hexagram_view.frame.size.height, t: 0) }
     end
   end
 
@@ -33,7 +54,7 @@ class HighlighterPositioner
     y = event.location.y
     actual_center = possible_highlighter_centers.sort_by { |center| (center - y).abs }.first
     animate do
-      position_highlighter(actual_center, hexagram_view.dim * 12)
+      position_highlighter(actual_center)
     end
   end
 
@@ -45,47 +66,18 @@ class HighlighterPositioner
     highlighter.animate(duration: 0.5, animations: block)
   end
 
-  def register_pan_gesture_recognizer(view)
-    rmq(view).on(:pan) do |_, event|
-      if event.recognizer.state == UIGestureRecognizerStateBegan
-        if highlighter.frame.height == 0
-          color_highlighter(rmq.color.clear)
-          position_trigram_highlight(event)
-          animate do
-            color_highlighter(rmq.color.highlighter)
-          end
-        else
-          animate do
-            position_trigram_highlight(event)
-          end
-        end
-      elsif event.recognizer.state == UIGestureRecognizerStateEnded
-        draw_highlighter(event)
-      else
-        position_trigram_highlight(event)
-      end
+  def calculate_trigram_highlighter_frame(center)
+    height = hexagram_view.dim * 12
+    t = center - height / 2
+    if t <= 0
+      t = 0
+    elsif t >= height
+      t = height
     end
+    { h: height, t: t }
   end
 
-  def register_long_press_gesture_recognizer(view)
-    rmq(view).on(:long_press) do
-      highlight_hexagram
-    end
-  end
-
-  def position_trigram_highlight(event)
-    position_highlighter(event.location.y, hexagram_view.dim * 12)
-  end
-
-  def color_highlighter(color)
-    highlighter.style do |st|
-      st.background_color = color
-    end
-  end
-
-  def frame_highlighter(frame)
-    highlighter.style do |st|
-      st.frame = frame
-    end
+  def position_highlighter(center)
+    frame_highlighter(calculate_trigram_highlighter_frame(center))
   end
 end

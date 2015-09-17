@@ -29,8 +29,8 @@ class HexagramView < UIView
         hexagram_line.styleForLine(line, atY: y)
       end
     end
-    positioner.register_long_press_gesture_recognizer(self)
-    positioner.register_pan_gesture_recognizer(self)
+    positioner.register_long_press_gesture_recognizer
+    positioner.register_pan_gesture_recognizer
   end
 
   def draw_highlighter(event)
