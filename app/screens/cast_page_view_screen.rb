@@ -7,14 +7,12 @@ class CastPageViewScreen < UIPageViewController
     )
   end
 
-  def append_to(parent, controller)
-    parent.addChildViewController(self)
-    parent.rmq.append(self.view, :paginator)
-    self.delegate = parent
-    self.dataSource = parent
+  def append
+    self.delegate.addChildViewController(self)
+    self.delegate.rmq.append(self.view, :paginator)
 
     self.setViewControllers(
-      [controller],
+      [self.dataSource.controllers[1]],
       direction: UIPageViewControllerNavigationDirectionReverse,
       animated: false,
       completion: nil

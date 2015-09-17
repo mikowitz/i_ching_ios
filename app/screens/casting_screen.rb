@@ -8,8 +8,10 @@ class CastingScreen < PM::Screen
       st.background_color = rmq.color.off_white
     end
     self.title = Hexagram.find(stabilized).chinese_name
-    cast_page_view_screen = CastPageViewScreen.new
-    cast_page_view_screen.append_to(self, controllers[1])
+    cast_page_view_screen = CastPageViewScreen.new.tap do |screen|
+      screen.delegate = self
+      screen.dataSource = self
+    end.append
   end
 
   def controllers
