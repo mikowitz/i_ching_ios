@@ -42,7 +42,9 @@ class HexagramView < UIView
   end
 
   def positioner
-    @positioner ||= HighlighterPositioner.new(highlighter)
+    @positioner ||= HighlighterPositioner.new(highlighter).tap do |positioner|
+      positioner.hexagram_view = self
+    end
   end
 
   def position_highlighter(center)

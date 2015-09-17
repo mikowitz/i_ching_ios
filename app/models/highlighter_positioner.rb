@@ -1,55 +1,48 @@
 class HighlighterPositioner
-  attr_reader :highlighter
+  attr_accessor :highlighter, :hexagram_view
 
   def initialize(highlighter)
     @highlighter = highlighter
   end
 
   def position_highlighter(center, height)
-    highlighter.style do |st|
-      t = center - height / 2
-      if t <= 0
-        t = 0
-      elsif t >= height
-        t = height
-      end
-      st.frame = { h: height, t: t }
+    t = center - height / 2
+    if t <= 0
+      t = 0
+    elsif t >= height
+      t = height
     end
+    frame_highlighter(h: height, t: t)
   end
 
   def highlight_hexagram
     if highlighter.frame.height == 0
-      frame_highlighter(h: highlighter.superview.frame.size.height, t: 0)
+      frame_highlighter(h: hexagram_view.frame.size.height, t: 0)
       color_highlighter(rmq.color.clear)
-      highlighter.animate(
-        duration: 0.5,
-        animations: -> (q) {
-          color_highlighter(rmq.color.highlighter)
-        }
-      )
+      animate do
+        color_highlighter(rmq.color.highlighter)
+      end
     else
-      highlighter.animate(
-        duration: 0.5,
-        animations: -> (q) {
-          frame_highlighter(h: highlighter.superview.frame.size.height, t: 0)
-        }
-      )
+      animate do
+        frame_highlighter(h: hexagram_view.frame.size.height, t: 0)
+      end
     end
   end
 
   def draw_highlighter(event)
     y = event.location.y
     actual_center = possible_highlighter_centers.sort_by { |center| (center - y).abs }.first
-    highlighter.animate(
-      duration: 0.3,
-      animations: -> (q) {
-        position_highlighter(actual_center, highlighter.superview.get.dim * 12)
-      }
-    )
+    animate do
+      position_highlighter(actual_center, hexagram_view.dim * 12)
+    end
   end
 
   def possible_highlighter_centers
-    highlighter.superview.get.possible_highlighter_centers
+    hexagram_view.possible_highlighter_centers
+  end
+
+  def animate(&block)
+    highlighter.animate(duration: 0.5, animations: block)
   end
 
   def register_pan_gesture_recognizer(view)
@@ -58,19 +51,13 @@ class HighlighterPositioner
         if highlighter.frame.height == 0
           color_highlighter(rmq.color.clear)
           position_trigram_highlight(event)
-          highlighter.animate(
-            duration: 0.5,
-            animations: -> (q) {
-              color_highlighter(rmq.color.highlighter)
-            }
-          )
+          animate do
+            color_highlighter(rmq.color.highlighter)
+          end
         else
-          highlighter.animate(
-            duration: 0.5,
-            animations: -> (q) {
-              position_trigram_highlight(event)
-            }
-          )
+          animate do
+            position_trigram_highlight(event)
+          end
         end
       elsif event.recognizer.state == UIGestureRecognizerStateEnded
         draw_highlighter(event)
@@ -87,7 +74,7 @@ class HighlighterPositioner
   end
 
   def position_trigram_highlight(event)
-    position_highlighter(event.location.y, highlighter.superview.get.dim * 12)
+    position_highlighter(event.location.y, hexagram_view.dim * 12)
   end
 
   def color_highlighter(color)
