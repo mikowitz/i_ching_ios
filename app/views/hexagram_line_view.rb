@@ -26,9 +26,11 @@ class HexagramLineView < UIView
     when 6
       draw_yin_line
       drawChangeX
+      draw_ghost_lines
     when 9
       draw_yang_line
       drawChangeCircle
+      draw_ghost_lines
     end
   end
 
@@ -56,6 +58,44 @@ class HexagramLineView < UIView
     rmq(self.superview).append(ChangeXView.alloc.initWithDiameter(diameter, top: top), :change_x).on(:tap) do |x|
       show_info_for_line
       x.highlight
+    end
+  end
+
+  def draw_ghost_yang(q)
+    q.append(UIView, :ghost_line_segment).style do |st|
+      st.frame = { l: 0, w: st.superview.frame.size.width, h: st.superview.frame.size.height / 4, centered: :vertical }
+    end
+  end
+
+  def draw_ghost_yin(q)
+    q.append(UIView, :ghost_line_segment).style do |st|
+      st.frame = { l: 0, w: st.superview.frame.size.width / 3, h: st.superview.frame.size.height / 4, centered: :vertical }
+    end
+    q.append(UIView, :ghost_line_segment).style do |st|
+      st.frame = { fr: 0, w: st.superview.frame.size.width / 3, h: st.superview.frame.size.height / 4, centered: :vertical }
+    end
+  end
+
+  def draw_ghost_lines
+    t = self.frame.origin.y + self.superview.frame.origin.y
+    rmq(self.superview.superview).append(UIView, :ghost_line_view).style do |st|
+      st.frame = { t: t, l: 10, h: self.frame.size.height, w: 40 }
+    end.tap do |q|
+      if line == 6
+        draw_ghost_yin(q)
+      elsif line == 9
+        draw_ghost_yang(q)
+      end
+    end
+
+    rmq(self.superview.superview).append(UIView, :ghost_line_view).style do |st|
+      st.frame = { t: t, fr: 10, h: self.frame.size.height, w: 40 }
+    end.tap do |q|
+      if line == 6
+        draw_ghost_yang(q)
+      elsif line == 9
+        draw_ghost_yin(q)
+      end
     end
   end
 

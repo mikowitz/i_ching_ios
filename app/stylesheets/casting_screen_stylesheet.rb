@@ -46,7 +46,15 @@ class CastingScreenStylesheet < ApplicationStylesheet
   end
 
   def hexagram_line_segment(st)
-    st.background_color = rmq.color.off_black
+    st.background_color = color.off_black
     rounded(st)
+  end
+
+  def ghost_line_view(st)
+    st.background_color = color.clear
+  end
+
+  def ghost_line_segment(st)
+    st.background_color = color(150, 150, 150, 0.2)
   end
 end
