@@ -45,7 +45,8 @@ class HexagramTableScreen < PM::TableScreen
   def present_casting_options
     alert = CastingOptionsAlert.new.tap do |alert|
       alert.delegate = self
-    end.wire_alert
+      alert.wire_alert
+    end
 
     presentViewController(alert.controller,
                           animated: true,

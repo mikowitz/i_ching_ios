@@ -4,11 +4,7 @@ class AppDelegate < PM::Delegate
   def on_load(app, options)
     StandardAppearance.apply(self.window)
 
-    # if Turnkey.unarchive("latest-api-version") == Settings.api_current_version
-    #   open HexagramTableScreen.new(nav_bar: true)
-    # else
     load_data
-    # end
     true
   end
 
