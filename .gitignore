@@ -8,6 +8,7 @@ resources/*.momd
 resources/*.storyboardc
 resources/*.xcdatamodeld
 vendor/Pods
+vendor/**/build*/
 .DS_Store
 nbproject
 .redcar
