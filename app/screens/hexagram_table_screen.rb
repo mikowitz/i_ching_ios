@@ -21,18 +21,19 @@ class HexagramTableScreen < PM::TableScreen
         title: "Hexagrams",
         title_view_height: 50,
         cells: @indices.sort.map do |index|
-          hexagram = Hexagram.find(index)
-          {
-            cell_class: HexagramTableCell,
-            action: :show_hexagram,
-            arguments: {
-              hexagram: hexagram
-            },
-            style: {
-              hexagram: hexagram
+          if hexagram = Hexagram.find(index)
+            {
+              cell_class: HexagramTableCell,
+              action: :show_hexagram,
+              arguments: {
+                hexagram: hexagram
+              },
+              style: {
+                hexagram: hexagram
+              }
             }
-          }
-        end
+          end
+        end.compact
       }
     ]
   end
