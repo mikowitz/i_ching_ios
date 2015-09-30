@@ -1,5 +1,5 @@
 module Bacon
   class Context
-    include CDQ
+    # include CDQ
   end
 end

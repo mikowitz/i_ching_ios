@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gem "rake"
 gem "motion-cocoapods"
 gem "redpotion"
-gem "cdq" # Core Data
+# gem "cdq" # Core Data
 gem "motion-yaml", "1.4" # Version 1.5 breaks CDQ
 gem "afmotion" # Networking
 gem "rake-hooks"
@@ -24,5 +24,5 @@ gem "motion-environment-settings", "0.0.3"
 
 # gem "motion-mastr" # Attributed strings: https://github.com/skellock/motion-mastr
 # gem 'motion-blitz' # Easy HUD with SVProgressHUD
-# gem "motion-juxtapose", "~> 0.1" # Screenshot acceptance comparison tool
+gem "motion-juxtapose", "~> 0.1" # Screenshot acceptance comparison tool
 # gem "bubble-wrap"
