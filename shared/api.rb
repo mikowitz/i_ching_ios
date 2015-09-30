@@ -37,6 +37,16 @@ module Api
     end
   end
 
+  def self.get_judgement(king_wen_number, &block)
+    client.get("hexagrams/#{king_wen_number}/judgement") do |result|
+      if result.success?
+        block.call(result.object)
+      else
+        mp result.error.localizedDescription
+      end
+    end
+  end
+
   def self.client
     @client ||= AFMotion::Client.build(host) do
       header "Accept", "application/json"

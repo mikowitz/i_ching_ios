@@ -3,6 +3,9 @@ class CastingOptionsAlert
 
   def initialize
     @controller = alert_controller
+    def @controller.shouldAutorotate
+      false
+    end
   end
 
   def wire_alert

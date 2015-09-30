@@ -31,6 +31,7 @@ class HexagramView < UIView
     end
     positioner.register_long_press_gesture_recognizer
     positioner.register_pan_gesture_recognizer
+    self
   end
 
   def draw_highlighter(event)

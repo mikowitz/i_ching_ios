@@ -24,11 +24,10 @@ Motion::Project::App.setup do |app|
   # RubyMotion by default selects the latest SDK you have installed,
   # if you would like to specify the SDK to assure consistency across multiple machines,
   # you can do so like the following examples
-  # app.sdk_version = '8.3'
-  # app.sdk_version = '7.1'
+  # app.sdk_version = '8.4'
 
   # Target OS
-  app.deployment_target = '7.1'
+  app.deployment_target = '8.4'
   # app.deployment_target = '8.0'
 
   app.icons = Dir.glob("resources/icon*.png").map{|icon| icon.split("/").last}
@@ -47,6 +46,7 @@ Motion::Project::App.setup do |app|
 
   # app.vendor_project('vendor/Flurry', :static)
   # app.vendor_project('vendor/DSLCalendarView', :static, :cflags => '-fobjc-arc') # Using arc
+  app.vendor_project("vendor/UIAlertController", :static)
 
   app.pods do
     pod "AFNetworking", "~> 2.5.0"
@@ -57,17 +57,22 @@ Motion::Project::App.setup do |app|
   end
 
   app.info_plist['UIViewControllerBasedStatusBarAppearance'] = false
+  app.info_plist["NSAppTransportSecurity"] = {
+    "NSAllowsArbitraryLoads" => true
+  }
   app.status_bar_style = :light_content
 
   app.development do
-    app.codesign_certificate = "iPhone Developer: YOURNAME"
-    app.provisioning_profile = "signing/i_ching_ios.mobileprovision"
+    puts "============> development"
+    app.codesign_certificate = "iPhone Developer: Michael Berkowitz (M7G2ZHUWSD)"
+    app.provisioning_profile = "/Users/michaelberkowitz/provisioning_profiles/IChing_Dev.mobileprovision"
   end
 
   app.release do
+    puts "============> release"
     app.entitlements['get-task-allow'] = false
-    app.codesign_certificate = 'iPhone Distribution: YOURNAME'
-    app.provisioning_profile = "signing/i_ching_ios.mobileprovision"
+    app.codesign_certificate = "iPhone Distribution: Michael Berkowitz (DBJ4K93CJ6)"
+    app.provisioning_profile = "/Users/michaelberkowitz/provisioning_profiles/IChing_AdHoc.mobileprovision"
     app.entitlements['beta-reports-active'] = true # For TestFlight
 
     app.seed_id = "YOUR_SEED_ID"

@@ -4,22 +4,28 @@ class AppDelegate < PM::Delegate
   def on_load(app, options)
     StandardAppearance.apply(self.window)
 
+    # if Turnkey.unarchive("latest-api-version") == Settings.api_current_version
+    #   open HexagramTableScreen.new(nav_bar: true)
+    # else
+    load_data
+    # end
+    true
+  end
+
+  def load_data
     Trigram.load_async do |trigrams|
       trigrams.each do |trigram_json|
         trigram = Trigram.from_json(trigram_json)
         Turnkey.archive(trigram, "trigram-#{trigram.number}")
       end
       Hexagram.load_async do |hexagrams|
-        @hexagram_indices = []
         hexagrams.each do |hexagram_json|
           hexagram = Hexagram.from_json(hexagram_json)
           Turnkey.archive(hexagram, "hexagram-#{hexagram.king_wen_number}")
-          @hexagram_indices << hexagram.king_wen_number
         end
-        Turnkey.archive(@hexagram_indices, "hexagram-indices")
+        Turnkey.archive(Settings.api_current_version, "latest-api-version")
         open HexagramTableScreen.new(nav_bar: true)
       end
     end
-    true
   end
 end

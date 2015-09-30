@@ -12,7 +12,11 @@ class HexagramTableCellStylesheet < ApplicationStylesheet
   end
 
   def number_label(st)
-    st.font = font.system(36)
+    # st.font = font.font_with_name
+    # st.font = font.system(36)
+    # st.font = font.default(36)
+    # st.font = font.large
+    st.font = font.standard_at_size(36)
     st.color = color.off_black
     st.text_alignment = :right
     st.frame = {
@@ -24,7 +28,8 @@ class HexagramTableCellStylesheet < ApplicationStylesheet
   end
 
   def chinese_label(st)
-    st.font = font.system(20)
+    st.font = font.medium
+    # st.font = font.system(20)
     st.color = color.off_black
     st.frame = { l: left_margin + number_label_width + 10, t: 3, h: 30, w: st.superview.frame.size.width - number_label_width }
   end

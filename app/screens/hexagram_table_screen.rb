@@ -4,7 +4,7 @@ class HexagramTableScreen < PM::TableScreen
   def on_load
     rmq.stylesheet = HexagramTableScreenStylesheet
     rmq(self.view).apply_style(:root_view)
-    @indices = Turnkey.unarchive("hexagram-indices")
+    @indices = (1..64).to_a
   end
 
   def table_data
@@ -45,14 +45,11 @@ class HexagramTableScreen < PM::TableScreen
   def present_casting_options
     alert = CastingOptionsAlert.new.tap do |alert|
       alert.delegate = self
-      alert.wire_alert
-    end
+    end.wire_alert
 
-    presentViewController(
-      alert.controller,
-      animated: true,
-      completion: nil
-    )
+    presentViewController(alert.controller,
+                          animated: true,
+                          completion: nil)
   end
 
   def cast_hexagram(method)

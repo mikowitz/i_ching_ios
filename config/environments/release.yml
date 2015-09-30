@@ -1,5 +1,5 @@
 ---
 app_name: "I Ching"
 app_identifier: "com.songsaboutsnow.i_ching"
-api_host: http://intense-beyond-1110.herokuapp.com
+api_host: http://i-ching-phoenix.herokuapp.com
 api_current_version: 1

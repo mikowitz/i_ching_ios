@@ -22,7 +22,7 @@ class CastingScreenStylesheet < ApplicationStylesheet
   end
 
   def hexagram_view(st)
-    st.frame = "d1:l10"
+    st.frame = "d2:l11"
     st.frame = { centered: :horizontal }
     st.background_color = color.off_white
   end

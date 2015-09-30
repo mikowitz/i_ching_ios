@@ -1,3 +1,17 @@
+class RubyMotionQuery::Font
+  STANDARD_FONT = "STHeitiSC-Medium"
+
+  class << self
+    def standard_at_size(size)
+      UIFont.fontWithName(STANDARD_FONT, size: size)
+    end
+
+    def standard_medium
+      @standard_medium ||= standard_at_size(20)
+    end
+  end
+end
+
 class ApplicationStylesheet < RubyMotionQuery::Stylesheet
 
   def application_setup
@@ -14,10 +28,13 @@ class ApplicationStylesheet < RubyMotionQuery::Stylesheet
     # end
 
     # An example of setting standard fonts and colors
-    font_family = 'Helvetica Neue'
+    font_family = "STHeitiSC-Medium"
     font.add_named :large,    font_family, 36
-    font.add_named :medium,   font_family, 24
-    font.add_named :small,    font_family, 18
+    font.add_named :medium,    font_family, 20
+    font.add_named :small,    font_family, 20
+    font.add_named :small_15,    font_family, 15
+    # font.add_named :medium,   font_family, 24
+    # font.add_named :small,    font_family, 18
 
     color.add_named :tint, '236EB7'
     color.add_named :translucent_black, color(0, 0, 0, 0.4)
@@ -27,8 +44,6 @@ class ApplicationStylesheet < RubyMotionQuery::Stylesheet
     color.add_named :old_marker, color(60, 60, 200, 1.0)
     color.add_named :old_marker_highlighted, color(60, 60, 255, 1.0)
     color.add_named :highlighter, color(hex: "6df", a: 0.5)
-
-    StandardAppearance.apply app.window
   end
 
   def rounded(st)

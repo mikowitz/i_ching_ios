@@ -27,28 +27,34 @@ class StandardAppearance
         o.translucent = true
 
         o.setTitleTextAttributes({
-          # UITextAttributeFont => rmq.font.medium,
+          UITextAttributeFont => rmq.font.font_with_name("STHeitiSC-Medium", 18),
           UITextAttributeTextColor => rmq.color.white,
-          UITextAttributeTextShadowColor => rmq.color.clear
+          # UITextAttributeTextShadowColor => rmq.color.clear
         })
       end
 
-      #  UIBarButtonItem.appearance.tap do |o|
-      #    o.setTitleTextAttributes( {
-      #      UITextAttributeFont => rmq.font.small_regular,
-      #      UITextAttributeTextColor => rmq.color.white
-      #      #UITextAttributeTextShadowColor => rmq.color.clear
-      #    }, forState: UIControlStateNormal)
-      #    o.setTitleTextAttributes( {
-      #      UITextAttributeFont => rmq.font.small,
-      #      UITextAttributeTextColor => rmq.color.gray
-      #      #UITextAttributeTextShadowColor => rmq.color.clear
-      #    }, forState: UIControlStateDisabled)
-      #  end
+       UIBarButtonItem.appearance.tap do |o|
+         o.setTitleTextAttributes( {
+           # UITextAttributeFont => rmq.font.small_regular,
+           UITextAttributeFont => rmq.font.font_with_name("STHeitiSC-Medium", 15),
+           UITextAttributeTextColor => rmq.color.white,
+           # UITextAttributeTextShadowColor => rmq.color.blue
+         }, forState: UIControlStateNormal)
+         o.setTitleTextAttributes( {
+           # UITextAttributeFont => rmq.font.small,
+           UITextAttributeFont => rmq.font.font_with_name("STHeitiSC-Medium", 15),
+           UITextAttributeTextColor => rmq.color.gray
+           #UITextAttributeTextShadowColor => rmq.color.clear
+         }, forState: UIControlStateDisabled)
+       end
 
       UIPageControl.appearance.tap do |o|
         o.pageIndicatorTintColor = rmq.color.black
         o.currentPageIndicatorTintColor = rmq.color(150, 150, 150)
+      end
+
+      UISegmentedControl.appearance.tap do |o|
+        o.setTintColor rmq.color.black
       end
     end
   end
