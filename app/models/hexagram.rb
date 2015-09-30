@@ -1,5 +1,6 @@
 class Hexagram
-  attr_accessor :chinese_name, :english_name, :characters, :english_subtitle, :binary, :king_wen_number, :judgement
+  attr_accessor :chinese_name, :english_name, :characters, :english_subtitle,
+                :binary, :king_wen_number, :judgement, :image
 
   def self.load_async(&block)
     Api.get_all_hexagrams(&block)
@@ -7,11 +8,6 @@ class Hexagram
 
   def self.find(king_wen_number)
     Turnkey.unarchive("hexagram-#{king_wen_number}")
-  end
-
-  def image
-    number = ((king_wen_number + rand(10)) % 64) + 1
-    Hexagram.find(number).judgement
   end
 
   def self.from_json(params)
@@ -22,6 +18,7 @@ class Hexagram
       hexagram.binary = params["binary"]
       hexagram.king_wen_number = params["king_wen_number"]
       hexagram.judgement = params["judgement"]
+      hexagram.image = params["image"]
     end
   end
 

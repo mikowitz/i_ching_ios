@@ -10,8 +10,9 @@ class CastingOptionsAlert
       add_action(casting_method)
     end
     add_cancel_action
-    self
   end
+
+  private
 
   def alert_controller
     UIAlertController.alertControllerWithTitle(
