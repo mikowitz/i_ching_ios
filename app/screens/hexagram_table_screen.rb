@@ -10,7 +10,6 @@ class HexagramTableScreen < PM::TableScreen
   def table_data
     [
       {
-        title: "Cast hexagram",
         title_view_height: 50,
         cells: [{
            title: "Cast hexagram",

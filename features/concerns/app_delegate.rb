@@ -3,17 +3,12 @@ class AppDelegate
     SDStatusBarManager.sharedInstance.enableOverrides
     SDStatusBarManager.sharedInstance.timeString = "2:00 PM"
 
-    hexagram = Hexagram.from_json(
-      "chinese_name" => "Chinese Name",
-      "english_name" => "English Name (English Subtitle)",
-      "characters" => "@",
-      "binary" => "010101",
-      "king_wen_number" => 1,
-      "judgement" => "I judge you\nPikachu!",
-      "image" => "Hold your head up\nbuddy!"
-    )
-    Turnkey.archive(hexagram, "hexagram-1")
-
-    open HexagramTableScreen.new(nav_bar: true)
+    Hexagram.load_async do |hexagrams|
+      hexagrams.each do |hexagram_json|
+        hexagram = Hexagram.from_json(hexagram_json)
+        Turnkey.archive(hexagram, "hexagram-#{hexagram.king_wen_number}")
+      end
+      open HexagramTableScreen.new(nav_bar: true)
+    end
   end
 end
