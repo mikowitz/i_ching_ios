@@ -1,0 +1,5 @@
+---
+app_name: I Ching Integration
+app_identifier: com.songsaboutsnow.i_ching_integration
+api_host: http://iching.dev.com:4000
+api_current_version: 1

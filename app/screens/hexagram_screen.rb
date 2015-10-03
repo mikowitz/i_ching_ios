@@ -74,5 +74,4 @@ class HexagramScreen < PM::Screen
   def content_switcher(_, content_for_content_key: key)
     hexagram.send(key)
   end
-
 end

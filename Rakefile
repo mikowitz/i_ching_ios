@@ -10,6 +10,8 @@ Bundler.require
 
 ENV["ENV"] ||= "development"
 
+Dir.glob("lib/tasks/*.rake").each { |r| import r }
+
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings
 
@@ -56,20 +58,19 @@ Motion::Project::App.setup do |app|
   #   pod "FontasticIcons"
   end
 
-  app.info_plist['UIViewControllerBasedStatusBarAppearance'] = false
   app.info_plist["NSAppTransportSecurity"] = {
     "NSAllowsArbitraryLoads" => true
   }
+
+  app.info_plist['UIViewControllerBasedStatusBarAppearance'] = false
   app.status_bar_style = :light_content
 
   app.development do
-    puts "============> development"
     app.codesign_certificate = "iPhone Developer: Michael Berkowitz (M7G2ZHUWSD)"
     app.provisioning_profile = "/Users/michaelberkowitz/provisioning_profiles/IChing_Dev.mobileprovision"
   end
 
   app.release do
-    puts "============> release"
     app.entitlements['get-task-allow'] = false
     app.codesign_certificate = "iPhone Distribution: Michael Berkowitz (DBJ4K93CJ6)"
     app.provisioning_profile = "/Users/michaelberkowitz/provisioning_profiles/IChing_AdHoc.mobileprovision"

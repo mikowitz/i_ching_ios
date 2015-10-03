@@ -26,3 +26,6 @@ gem "motion-environment-settings", "0.0.3"
 # gem 'motion-blitz' # Easy HUD with SVProgressHUD
 gem "motion-juxtapose", "~> 0.1" # Screenshot acceptance comparison tool
 # gem "bubble-wrap"
+
+gem "test_sweet"
+gem "appium_lib"

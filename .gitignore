@@ -8,7 +8,7 @@ resources/*.momd
 resources/*.storyboardc
 resources/*.xcdatamodeld
 vendor/Pods
-vendor/**/build*/
+vendor/UIAlertController
 .DS_Store
 nbproject
 .redcar
@@ -21,3 +21,4 @@ nbproject
 .dat*.*
 *.swp
 *.orig
+features/screens
